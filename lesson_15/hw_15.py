@@ -18,7 +18,6 @@ class Rhombus:
     def __init__(self, *, side:float, angle_a:float):
         self.side = side
         self.angle_a = angle_a
-        self.angle_b = 180 - angle_a
 
     def __str__(self):
         return f"Rhombus parameters: side={self.side}, angleA={self.angle_a}, angleB={self.angle_b}"
