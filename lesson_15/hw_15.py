@@ -34,14 +34,15 @@ class Rhombus:
                 super().__setattr__(name, value)
                 super().__setattr__('angle_a', 180 - value)
             else:
-                raise ValueError(f"Value of parameter '{name}': {value}, not in range")
+                raise ValueError(f"Value error: '{name}'={value}, not in range")
         else:
-            raise TypeError(f"Value: '{value}' must be integer/float type. Current type: {type(value).__name__}")
+            raise TypeError(f"Type error: '{value}' must be integer/float type. Current type: {type(value).__name__}")
 
 
 if __name__=='__main__':
-    res = Rhombus(side=14.1, angle_a=15.5)
+    res = Rhombus(side=14.1, angle_a=15.1)
     print(res)
     res.angle_b = 10
-    res.angle_a = 90.1
+    print(res)
+    res.angle_a = 40.5
     print(res)
