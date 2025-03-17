@@ -18,9 +18,9 @@ class Rhombus:
                 elif 0 < value < 180:
                     # Looping and processing all angle values, while passing to __setattr__ one angle value.
                     for item in self.__dict__['angles']:
-                        if item == name:
+                        if name == item:
                             super().__setattr__(name, value)
-                        elif name in self.__dict__:
+                        elif name in self.__dict__['angles']:
                             super().__setattr__(item, 180 - value)
                 else:
                     raise ValueError(f"Value error: '{name}'={value}, not in range")
