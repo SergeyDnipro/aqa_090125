@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Employee(ABC):
     def __init__(self, *, name, salary, team=None):
         self.name = name
@@ -56,7 +57,8 @@ if __name__ == '__main__':
     obj1 = Manager(name='Jack', salary=1000, department='marketing')
     obj2 = Developer(name='Vader', salary=1500, programming_language='python')
     obj3 = Developer(name='Darth', salary=2500, programming_language='C#')
-    obj4 = Teamlead(name='Jonh', salary=3000, department='development', programming_language='Java', team_name='StarGoose')
+    obj4 = Teamlead(name='Jonh', salary=3000, department='development', programming_language='Java',
+                    team_name='StarGoose')
     obj5 = Teamlead(name='Luke', salary=1999, department='development', programming_language='C++', team_name='Goliath')
 
     obj2.add_to_team(obj4)
@@ -65,27 +67,10 @@ if __name__ == '__main__':
     obj3.add_to_team(obj4)
     print(obj4.team_person_list)
     print(obj4.team_size)
-    # obj2.add_to_team(obj5)
+    obj2.add_to_team(obj5)
     print(obj4.team_person_list)
     print(obj5.team_person_list)
     print(obj4)
     obj1.add_to_team(obj4)
     print(obj4)
     print(obj4.team_size)
-
-    # print(obj4.team_size)
-    # obj3.add_to_team(obj4)
-    # obj2.add_to_team(obj4)
-    # print(obj4.team_size)
-    # print(obj4.salary)
-    # obj3.add_to_team(obj5)
-    # obj3.add_to_team(obj5)
-    # obj1.add_to_team(obj3)
-    # print(obj4.team_size)
-    # print(obj5.team_size)
-    # print(obj5.employee_classname())
-    # print(obj1.employee_classname())
-    # obj1.add_to_team(obj4)
-    # print(obj4.team_size)
-    # print(obj4.team_person_list)
-    # print(obj5.team_person_list)

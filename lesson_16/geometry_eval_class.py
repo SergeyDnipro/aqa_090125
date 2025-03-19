@@ -3,6 +3,7 @@ from math import sqrt
 from random import randint, choice
 import inspect
 
+
 class Figure(ABC):
     @abstractmethod
     def square(self):
@@ -24,6 +25,7 @@ class Figure(ABC):
             params.append(f"{formatted_key}={value}")
         return f"Об'єкт '{self.__class__.__name__}' з параметрами: {', '.join(params)}"
 
+
 class Circle(Figure):
     def __init__(self, *, radius: [int, float]):
         self.__radius = radius
@@ -33,6 +35,7 @@ class Circle(Figure):
 
     def perimeter(self):
         return round(2 * 3.14 * self.__radius, 2)
+
 
 class Rhombus(Figure):
     def __init__(self, *, diameter_a, diameter_b):
@@ -48,6 +51,7 @@ class Rhombus(Figure):
         side_c = sqrt(pow(side_a, 2) + pow(side_b, 2))
         return round(side_c * 4, 2)
 
+
 class Rectangle(Figure):
     def __init__(self, *, side_a, side_b):
         self.__side_a = side_a
@@ -61,11 +65,12 @@ class Rectangle(Figure):
 
 
 if __name__ == '__main__':
-    # Динамічно формуємо інстанси класів з рандомними аргументами
+    # Dinamycally instantiate classes with random params.
     figures_cls = [Circle, Rectangle, Rhombus]
     for obj_num in range(10):
         obj_kwargs = {}
         obj_class = choice(figures_cls)
+        # Get params of current class and fill them random values.
         obj_class_params = inspect.signature(obj_class).parameters
         for parameter_name, parameter_value in obj_class_params.items():
             obj_kwargs[parameter_name] = randint(1, 100)
