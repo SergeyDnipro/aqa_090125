@@ -78,15 +78,16 @@ def get_country(first_name = None):
 	if first_name != None:
 		for data in countryFile:
 			if data[0] != '' and data[0] == first_name:
-				country = data[3]
+				country = data[9]
 				break
 		if country == "":
 			print("Specified user data is not available. Tip: Generate random country.")
 	else:
 		filteredData = []
 		for data in countryFile:
-			if data[12] != '':
-				filteredData.append(data[12])
+			print(data[9])
+			if data[9] != '':
+				filteredData.append(data[9])
 		country = choice(filteredData)
 	return country
 
@@ -119,14 +120,14 @@ def get_formatted_datetime(outFormat, strDate, strFormat = "%d-%m-%Y %H:%M:%S"):
 def get_email(prsn = None):
 	domains = ["gmail", "yahoo", "hotmail", "express", "yandex", "nexus", "online", "omega", "institute", "finance", "company", "corporation", "community"]
 	extentions = ['com', 'in', 'jp', 'us', 'uk', 'org', 'edu', 'au', 'de', 'co', 'me', 'biz', 'dev', 'ngo', 'site', 'xyz', 'zero', 'tech']
-	
+
 	if prsn == None:
 		prsn = Person()
-	
+
 	c = randint(0,2)
 	dmn = '@' + choice(domains)
 	ext = choice(extentions)
-	
+
 	if c == 0:
 		email = prsn.first_name + get_formatted_datetime("%Y", prsn.birthdate, "%d %b, %Y") + dmn + "." + ext
 	elif c == 1:
@@ -258,27 +259,30 @@ def get_birthdate(startAge = None, endAge = None, _format = "%d %b, %Y"):
 	return datetime.fromtimestamp(randrange(int(endTs), int(startTs))).strftime(_format)
 
 def get_address():
-	full_addr = []
+	addrFile = csv.reader(open(full_path('data.csv'), 'r'))
 	addrParam = ['street', 'landmark', 'area', 'city', 'state', 'country', 'pincode']
-	for i in range(5,12):
-		addrFile = csv.reader(open(full_path('data.csv'), 'r'))
-		allAddrs = []
-		for addr in addrFile:
-			try:
-				if addr[i] != '':
-					allAddrs.append(addr[i])
-			except:
-				pass
-		full_addr.append(choice(allAddrs))
-	full_addr = dict(zip(addrParam, full_addr))
+	allAddrs = []
+	for addr in addrFile:
+		current_addr = []
+		if addr[0] == 'firstname':
+			continue
+		for i in range(4, 11):
+
+			if addr[i] != '':
+				current_addr.append(addr[i])
+			else:
+				current_addr.append(choice(allAddrs)[i - 4])
+		allAddrs.append(current_addr)
+	chosen_addr = choice(allAddrs)
+	full_addr = dict(zip(addrParam, chosen_addr))
 	return full_addr
 
 def get_hobbies():
 	hobbiesFile = csv.reader(open(full_path('data.csv'), 'r'))
 	allHobbies = []
 	for data in hobbiesFile:
-		if data[4] != '':
-			allHobbies.append(data[4])
+		if data[3] != '':
+			allHobbies.append(data[3])
 	hobbies = []
 	for _ in range (1, randint(2,6)):
 		hobbies.append(choice(allHobbies))
@@ -299,7 +303,7 @@ class Person:
 		self.hobbies = get_hobbies()
 		self.address = get_address()
 		self.customAttr = {}
-	
+
 	def set_attr(self, attr_name, value = None):
 		if attr_name.isalnum():
 			if attr_name[0].isalpha():
@@ -309,7 +313,7 @@ class Person:
 				raise ValueError("First character of attribute must be an alphabet.")
 		else:
 			raise ValueError("Attribute name only contains alphabets and digits.")
-	
+
 	def get_attr(self, attr_name):
 		if attr_name.isalnum():
 			if attr_name[0].isalpha():
