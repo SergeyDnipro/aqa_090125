@@ -16,6 +16,21 @@ __license__ = 'MIT'
 
 full_path = lambda filename: abspath(join(dirname(__file__), filename))
 
+def load_dataset(file=None):
+	if not file:
+		file = open(full_path('data.csv'), 'r', newline='')
+		csv_file = csv.reader(file)
+		# print('Open file in method')
+		return csv_file, file
+	csv_file = csv.reader(file)
+	# print('class instance read file')
+	return csv_file, file
+
+def file_postprocessing(*, current_file_obj, passed_file_obj=None):
+	current_file_obj.seek(0)
+	if not passed_file_obj:
+		current_file_obj.close()
+
 def get_id(length = 6, seq_number = None, step = 1, prefix = None, postfix = None):
 	generated_id = ""
 	if seq_number == None:
@@ -33,62 +48,56 @@ def get_id(length = 6, seq_number = None, step = 1, prefix = None, postfix = Non
 		generated_id += postfix
 	return generated_id
 
-def get_first_name(gender = None):
-	firstNameFile = csv.reader(open(full_path('data.csv'), 'r'))
-	filteredData = []
-	if gender == None:
-		for data in firstNameFile:
-			if data[0] != '':
-				filteredData.append(data)
-	else:
-		if gender.lower() == "male":
-			for data in firstNameFile:
-				if data[0] != '':
-					if(data[2] == "male"):
-						filteredData.append(data)
-		elif gender.lower() == "female":
-			for data in firstNameFile:
-				if data[0] != '':
-					if(data[2] == "female"):
-						filteredData.append(data)
-		else:
-			raise ValueError("Enter gender male or female.")
-	return choice(filteredData)[0]
+def get_first_name(gender=None, passed_file_obj=None):
+	csv_file, current_file_obj = load_dataset(passed_file_obj)
+	gender_list = ["male", "female"]
+	if gender is not None and gender not in gender_list:
+		raise ValueError("Enter valid gender: 'male' or 'female'.")
+	first_name_list = []
+	for data in csv_file:
+		if gender is None:
+			first_name_list.append(data[0]) if data[0] != '' else None
+		elif gender.lower() == data[2]:
+			first_name_list.append(data[0])
 
-def get_last_name():
-	lastNameFile = csv.reader(open(full_path('data.csv'), 'r'))
-	filteredData = []
-	for data in lastNameFile:
-		if data[1] != '':
-			filteredData.append(data[1])
-	return choice(filteredData)
+	file_postprocessing(current_file_obj=current_file_obj, passed_file_obj=passed_file_obj)
+	return choice(first_name_list)
 
-def get_gender(first_name):
-	firstNameFile = csv.reader(open(full_path('data.csv'), 'r'))
-	gender = ""
-	for data in firstNameFile:
-		if data[0] != '' and data[0] == first_name:
+def get_last_name(passed_file_obj=None):
+	csv_file, current_file_obj = load_dataset(passed_file_obj)
+	last_name_list = []
+	for data in csv_file:
+		last_name_list.append(data[1]) if data[1] != '' else None
+	file_postprocessing(current_file_obj=current_file_obj, passed_file_obj=passed_file_obj)
+	return choice(last_name_list)
+
+def get_gender(first_name, passed_file_obj=None):
+	csv_file, current_file_obj = load_dataset(passed_file_obj)
+	gender = "N/A"
+	for data in csv_file:
+		if data[0] == first_name:
 			gender = data[2]
 			break
+	file_postprocessing(current_file_obj=current_file_obj, passed_file_obj=passed_file_obj)
 	return gender
 
-def get_country(first_name = None):
-	countryFile = csv.reader(open(full_path('data.csv'), 'r'))
-	country = ""
-	if first_name != None:
-		for data in countryFile:
-			if data[0] != '' and data[0] == first_name:
+def get_country(first_name = None, passed_file_obj=None):
+	csv_file, current_file_obj = load_dataset(passed_file_obj)
+	country = "N/A"
+	if first_name is not None:
+		for data in csv_file:
+			if data[0] == first_name:
 				country = data[9]
 				break
-		if country == "":
+		if country == "N/A":
 			print("Specified user data is not available. Tip: Generate random country.")
 	else:
-		filteredData = []
-		for data in countryFile:
-			print(data[9])
+		countries_set = set()
+		for data in csv_file:
 			if data[9] != '':
-				filteredData.append(data[9])
-		country = choice(filteredData)
+				countries_set.add(data[9])
+		country = choice(list(countries_set))
+	file_postprocessing(current_file_obj=current_file_obj, passed_file_obj=passed_file_obj)
 	return country
 
 def get_full_name(gender = None):
@@ -117,23 +126,23 @@ def get_otp(length = 6, digit = True, alpha = True, lowercase = True, uppercase 
 def get_formatted_datetime(outFormat, strDate, strFormat = "%d-%m-%Y %H:%M:%S"):
     return datetime.strptime(strDate, strFormat).strftime(outFormat)
 
-def get_email(prsn = None):
+def get_email(person_instance = None):
 	domains = ["gmail", "yahoo", "hotmail", "express", "yandex", "nexus", "online", "omega", "institute", "finance", "company", "corporation", "community"]
 	extentions = ['com', 'in', 'jp', 'us', 'uk', 'org', 'edu', 'au', 'de', 'co', 'me', 'biz', 'dev', 'ngo', 'site', 'xyz', 'zero', 'tech']
 
-	if prsn == None:
-		prsn = Person()
+	if person_instance is None:
+		person_instance = Person()
 
 	c = randint(0,2)
 	dmn = '@' + choice(domains)
 	ext = choice(extentions)
 
 	if c == 0:
-		email = prsn.first_name + get_formatted_datetime("%Y", prsn.birthdate, "%d %b, %Y") + dmn + "." + ext
+		email = person_instance.first_name + get_formatted_datetime("%Y", person_instance.birthdate, "%d %b, %Y") + dmn + "." + ext
 	elif c == 1:
-		email = prsn.last_name + get_formatted_datetime("%d", prsn.birthdate, "%d %b, %Y") + dmn + "." + ext
+		email = person_instance.last_name + get_formatted_datetime("%d", person_instance.birthdate, "%d %b, %Y") + dmn + "." + ext
 	else:
-		email = prsn.first_name + get_formatted_datetime("%y", prsn.birthdate, "%d %b, %Y") + dmn + "." + ext
+		email = person_instance.first_name + get_formatted_datetime("%y", person_instance.birthdate, "%d %b, %Y") + dmn + "." + ext
 	return email
 
 def random_password(length = 8, special_chars = True, digits = True):
@@ -258,51 +267,54 @@ def get_birthdate(startAge = None, endAge = None, _format = "%d %b, %Y"):
 	endTs = endRange.timestamp()
 	return datetime.fromtimestamp(randrange(int(endTs), int(startTs))).strftime(_format)
 
-def get_address():
-	addrFile = csv.reader(open(full_path('data.csv'), 'r'))
-	addrParam = ['street', 'landmark', 'area', 'city', 'state', 'country', 'pincode']
-	allAddrs = []
-	for addr in addrFile:
-		current_addr = []
-		if addr[0] == 'firstname':
+def get_address(passed_file_obj=None):
+	csv_file, current_file_obj = load_dataset(passed_file_obj)
+	address_params = ['street', 'landmark', 'area', 'city', 'state', 'country', 'pincode']
+	all_addresses_list = []
+	for data in csv_file:
+		current_address = []
+		if data[0] == 'firstname':
 			continue
 		for i in range(4, 11):
 
-			if addr[i] != '':
-				current_addr.append(addr[i])
+			if data[i] != '':
+				current_address.append(data[i])
 			else:
-				current_addr.append(choice(allAddrs)[i - 4])
-		allAddrs.append(current_addr)
-	chosen_addr = choice(allAddrs)
-	full_addr = dict(zip(addrParam, chosen_addr))
-	return full_addr
+				current_address.append(choice(all_addresses_list)[i - 4])
+		all_addresses_list.append(current_address)
+	chosen_address = choice(all_addresses_list)
+	full_address = dict(zip(address_params, chosen_address))
+	file_postprocessing(current_file_obj=current_file_obj, passed_file_obj=passed_file_obj)
+	return full_address
 
-def get_hobbies():
-	hobbiesFile = csv.reader(open(full_path('data.csv'), 'r'))
-	allHobbies = []
-	for data in hobbiesFile:
+def get_hobbies(passed_file_obj=None):
+	csv_file, current_file_obj = load_dataset(passed_file_obj)
+	hobbies_set = set()
+	for data in csv_file:
 		if data[3] != '':
-			allHobbies.append(data[3])
+			hobbies_set.add(data[3])
 	hobbies = []
 	for _ in range (1, randint(2,6)):
-		hobbies.append(choice(allHobbies))
+		hobbies.append(choice(list(hobbies_set)))
+	file_postprocessing(current_file_obj=current_file_obj, passed_file_obj=passed_file_obj)
 	return hobbies
 
 class Person:
-	def __init__(self, gender = None):
-		firstName = get_first_name(gender)
-		self.first_name = firstName
-		self.last_name = get_last_name()
+	def __init__(self):
+		self.data_file = open(full_path('data.csv'), 'r', newline='')
+		self.first_name = get_first_name(passed_file_obj=self.data_file)
+		self.last_name = get_last_name(passed_file_obj=self.data_file)
 		self.full_name = self.first_name + " " + self.last_name
 		self.birthdate = get_birthdate()
 		self.phone = get_phone_number()
 		self.email = get_email(self)
-		self.gender = get_gender(firstName)
-		self.country = get_country(firstName)
+		self.gender = get_gender(self.first_name, passed_file_obj=self.data_file)
+		self.country = get_country(self.first_name, passed_file_obj=self.data_file)
 		self.paswd = random_password()
-		self.hobbies = get_hobbies()
-		self.address = get_address()
+		self.hobbies = get_hobbies(passed_file_obj=self.data_file)
+		self.address = get_address(passed_file_obj=self.data_file)
 		self.customAttr = {}
+		self.data_file.close()
 
 	def set_attr(self, attr_name, value = None):
 		if attr_name.isalnum():
