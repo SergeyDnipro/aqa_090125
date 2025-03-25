@@ -1,4 +1,3 @@
-import logging
 import logging.config
 
 
@@ -13,7 +12,7 @@ def logging_factorial(func):
     return wrapper
 
 @logging_factorial
-def factorial_generator(end_value):
+def factorial_generator(end_value: int):
     """ Generator that produce factorial of numbers from 0 to 'end_value'. """
     result = 1
     for i in range(end_value + 1):

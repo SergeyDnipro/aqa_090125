@@ -1,16 +1,15 @@
-import logging
 import logging.config
 
 
 # Generators
-def even_numbers_generator(end_value):
+def even_numbers_generator(end_value: int):
     """ Even numbers generator. """
     current_value = 0
     while current_value <= end_value:
         yield current_value
         current_value += 2
 
-def fibonacci_generator(number):
+def fibonacci_generator(number: int):
     """ Generate Fibonacci sequence with end 'number'. """
     prev_prev_number = 0
     prev_number = 1
@@ -27,9 +26,11 @@ class ReverseList:
             raise TypeError("Object must be a 'list' type")
         self.sequence = obj
 
+    # Вирішив не реалізовувати метод __next__. Якщо завдання потребує, зроблю.
     def __iter__(self):
         for ind in range(len(self.sequence) - 1, -1, -1):
             yield self.sequence[ind]
+
 
 class EvenNumbers:
     """ Iterator return even number from 0 to 'number' """
@@ -38,6 +39,7 @@ class EvenNumbers:
             raise TypeError("Object must be a 'int' type")
         self.number = number
 
+    # Вирішив не реалізовувати метод __next__. Якщо завдання потребує, зроблю.
     def __iter__(self):
         current_number = 0
         while current_number <= self.number:
