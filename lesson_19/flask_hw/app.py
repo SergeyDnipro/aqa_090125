@@ -4,9 +4,6 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-# upload_directory = './uploads'
-# if not os.path.exists(upload_directory):
-#     os.makedirs(upload_directory)
 BASE_DIR = Path(__file__).parent
 IMAGE_DIR = BASE_DIR / 'uploads'
 if not IMAGE_DIR.exists():
