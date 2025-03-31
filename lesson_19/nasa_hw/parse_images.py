@@ -5,6 +5,7 @@ from pathlib import Path
 from json import JSONDecodeError
 from lesson_19.logger_config import LOGGING_CONFIG
 
+
 BASE_DIR = Path(__file__).parent
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger('nasa_images_logger')
@@ -12,32 +13,43 @@ logger = logging.getLogger('nasa_images_logger')
 
 def get_response(*, url: str, params: dict = None):
     """ Get response from URL and catching errors. """
+
+    error_messages = []
+
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
         json_data = response.json()
         logger.info(f"JSON data received on URL:{url}")
         return json_data
+
     except JSONDecodeError as e:
         logger.error(f"JSON decoding error: {e}")
-        raise JSONDecodeError
+        error_messages.append(f"JSON decoding error, additional info in logfile")
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
+        error_messages.append(f"Request failed, additional info in logfile")
+
+    return error_messages
 
 
 def parse_images(*, json_data, image_url_list=None) -> list:
     """ Recursion parsing unknown JSON document, finding following 'key'. Appending it to list. """
+
     if image_url_list is None:
         image_url_list = []
+
     if isinstance(json_data, list):
         for list_element in json_data:
             parse_images(json_data=list_element, image_url_list=image_url_list)
+
     if isinstance(json_data, dict):
         for key in json_data:
             if key == 'img_src':
                 image_url_list.append(json_data[key])
             elif isinstance(json_data[key], (dict, list)):
                 parse_images(json_data=json_data[key], image_url_list=image_url_list)
+
     return image_url_list
 
 
