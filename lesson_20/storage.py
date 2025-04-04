@@ -34,7 +34,7 @@ class DatabaseClass:
             cursor.execute(query)
             connection.commit()
 
-    def get_products_by_category_id(self, cat_id: int = None):
+    def get_products_by_category_id(self, cat_id: int):
         """ Get all products by 'category id' """
         with sqlite3.connect(self.db) as connection:
             cursor = connection.cursor()
