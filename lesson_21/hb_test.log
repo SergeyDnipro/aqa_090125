@@ -1,0 +1,7 @@
+[2025-04-09 12:53:48][ERROR] -   Between current TS[04:51:17] and previous TS[04:50:42] - 35 seconds, row # 1200
+[2025-04-09 12:53:48][ERROR] -   Between current TS[03:39:11] and previous TS[03:38:36] - 35 seconds, row # 2773
+[2025-04-09 12:53:48][ERROR] -   Between current TS[02:27:06] and previous TS[02:26:30] - 36 seconds, row # 4346
+[2025-04-09 12:53:48][WARNING] - Between current TS[01:35:10] and previous TS[01:34:38] - 32 seconds, row # 5479
+[2025-04-09 12:53:48][ERROR] -   Between current TS[01:14:58] and previous TS[01:14:23] - 35 seconds, row # 5919
+[2025-04-09 12:53:48][ERROR] -   ValueError: time data '00-03-15' does not match format '%H:%M:%S', row # 7470
+[2025-04-09 12:53:48][ERROR] -   ValueError: No 'timestamp' label found in the record, row # 7481
