@@ -12,8 +12,7 @@ def process_heart_beating_file(*, filename, thread_id: str, hb_delta_normal: int
     timedelta_normal = timedelta(seconds=hb_delta_normal)
     timedelta_high = timedelta(seconds=hb_delta_high)
     time_format = '%H:%M:%S'
-    start_time_str = None
-    start_time_datetime_obj = None
+    current_time_str, current_time_datetime_obj = None, None
     temp_list = []
 
     try:
@@ -30,27 +29,27 @@ def process_heart_beating_file(*, filename, thread_id: str, hb_delta_normal: int
     for record_instance, row_number in temp_list:
         # Try to get Datetime Objects from string values of timestamps. Handle and logging errors.
         try:
-            if record_instance.find('Timestamp ') == -1:
+            if 'Timestamp ' not in record_instance:
                 raise ValueError(f"No 'timestamp' label found in the record")
             timestamp_start_index = record_instance.find("Timestamp ") + 10
-            end_time_str = record_instance[timestamp_start_index:timestamp_start_index + 8]
-            end_time_datetime_obj = datetime.strptime(end_time_str, time_format)
+            prev_time_str = record_instance[timestamp_start_index:timestamp_start_index + 8]
+            prev_time_datetime_obj = datetime.strptime(prev_time_str, time_format)
 
-            if not start_time_str:
-                start_time_str, start_time_datetime_obj = end_time_str, end_time_datetime_obj
+            if not current_time_str:
+                current_time_str, current_time_datetime_obj = prev_time_str, prev_time_datetime_obj
                 continue
 
-            timedelta_current = start_time_datetime_obj - end_time_datetime_obj
+            timedelta_current = current_time_datetime_obj - prev_time_datetime_obj
 
             # Logging following data due to the current record timedelta checking result.
             if timedelta_high > timedelta_current > timedelta_normal:
-                logger.warning(f"Between current TS[{start_time_str}] and previous TS[{end_time_str}] - "
+                logger.warning(f"Between current TS[{current_time_str}] and previous TS[{prev_time_str}] - "
                                f"{timedelta_current.seconds} seconds, row # {row_number}")
             elif timedelta_current >= timedelta_high:
-                logger.error(f"  Between current TS[{start_time_str}] and previous TS[{end_time_str}] - "
+                logger.error(f"  Between current TS[{current_time_str}] and previous TS[{prev_time_str}] - "
                              f"{timedelta_current.seconds} seconds, row # {row_number}")
 
-            start_time_str, start_time_datetime_obj = end_time_str, end_time_datetime_obj
+            current_time_str, current_time_datetime_obj = prev_time_str, prev_time_datetime_obj
 
         except ValueError as e:
             logger.error(f"  ValueError: {e}, row # {row_number}")
