@@ -1,0 +1,31 @@
+courses_list = [
+    ('Mathematics', 5),
+    ('Physics', 4),
+    ('Chemistry', 3),
+    ('Engineering', 4),
+    ('Philosophy', 3),
+]
+
+students_list = [
+    ('Abha Acharya', 18),
+    ('Amita Bains', 44),
+    ('Baladeva Bobal', 44),
+    ('Bishen Brar', 21),
+    ('Chander Chand', 26),
+    ('Chandrakanta Char', 19),
+    ('Chitra Cheema', 22),
+    ('Dalini Chhabra', 24),
+    ('Daya Contractor', 21),
+    ('Daya Ighaya', 21),
+    ('Devaraja Date', 21),
+    ('Esha Dutta', 24),
+    ('Gautama Gandhi', 22),
+    ('Girisha Garde', 31),
+    ('Deidra Garde', 31),
+    ('Gopalkrishna Gokhale', 33),
+    ('Hamsa Gulati', 24),
+    ('Harinder Handa', 33),
+    ('Ila Iyengar', 29),
+    ('Inderpal Jani', 45),
+    ('Jarita Kanda', 35),
+]
