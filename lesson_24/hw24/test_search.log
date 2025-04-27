@@ -1,0 +1,13 @@
+[2025-04-26 01:02:48][INFO] - Test session created for user: test_user
+[2025-04-26 01:02:48][INFO] - test_get_all_cars - PASSED, All cars fetched successfully
+[2025-04-26 01:02:48][INFO] - test_auth_negative[username_testcase_data0] - PASSED, Authentication failed!, QueryParams: user='', password='qwerty
+[2025-04-26 01:02:48][INFO] - test_auth_negative[username_testcase_data1] - PASSED, Authentication failed!, QueryParams: user='User1', password='
+[2025-04-26 01:02:48][INFO] - test_auth_negative[username_testcase_data2] - PASSED, Wrong username/password!, QueryParams: user='admin', password='admin
+[2025-04-26 01:02:48][INFO] - test_car_app_with_query_params[query_params0-expected_data0] - PASSED, QueryParams: sort_by=price, limit=2
+[2025-04-26 01:02:48][INFO] - test_car_app_with_query_params[query_params1-expected_data1] - PASSED, QueryParams: sort_by=price, limit=
+[2025-04-26 01:02:48][INFO] - test_car_app_with_query_params[query_params2-expected_data2] - PASSED, QueryParams: sort_by=year, limit=5
+[2025-04-26 01:02:48][INFO] - test_car_app_with_query_params[query_params3-expected_data3] - PASSED, QueryParams: sort_by=engine_volume, limit=3
+[2025-04-26 01:02:48][INFO] - test_car_app_with_query_params[query_params4-expected_data4] - PASSED, QueryParams: sort_by=brand, limit=10
+[2025-04-26 01:02:48][INFO] - test_car_app_with_query_params[query_params5-expected_data5] - PASSED, QueryParams: sort_by=, limit=100
+[2025-04-26 01:02:48][INFO] - test_car_app_with_anon_user - PASSED, {'msg': 'Missing Authorization Header'}
+[2025-04-26 01:02:48][INFO] - Test session closed for user: test_user
