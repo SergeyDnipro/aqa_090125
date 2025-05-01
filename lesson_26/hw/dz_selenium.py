@@ -60,5 +60,5 @@ def search_and_check_frames_for_correct_input(url:str, correct_answers: list[str
 
 if __name__ == '__main__':
     url = "http://localhost:8000/dz.html"
-    correct_answers = ['Frame1_Secret']
+    correct_answers = ['Frame1_Secret', 'Frame2_Secret']
     search_and_check_frames_for_correct_input(url=url, correct_answers=correct_answers)
