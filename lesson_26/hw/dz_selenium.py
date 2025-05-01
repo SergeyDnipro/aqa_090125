@@ -3,16 +3,15 @@ import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.alert import Alert
+from logging_formatter import CustomFormatter
 
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='[%(asctime)s][%(levelname)s] - %(message)s',
-    datefmt='%d/%m/%Y %H:%M:%S',
-    handlers=[logging.FileHandler('check_frames.log')],
-)
-
+# Initiating logger configuration
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler('check_frames.log')
+handler.setFormatter(CustomFormatter())
+logger.addHandler(handler)
 
 
 def search_and_check_frames_for_correct_input(url:str, correct_answers: list[str]):
@@ -36,6 +35,7 @@ def search_and_check_frames_for_correct_input(url:str, correct_answers: list[str
             driver.find_element(By.XPATH, "//button[text()='Перевірити']").click()
             time.sleep(1)
 
+            # Get text and process Alert window
             alert = Alert(driver)
             alert_text = alert.text
             alert.accept()
@@ -49,10 +49,14 @@ def search_and_check_frames_for_correct_input(url:str, correct_answers: list[str
             driver.switch_to.default_content()
 
         except Exception as e:
-            logger.error(f"During processing URL:{url}, Frame:'{frame.get_attribute('id')}' - raised exception: {e}")
+            logger.error(
+                f"During processing URL:{url}, Frame:'{frame.get_attribute('id')}' - exception occurred: {e}",
+                exc_info=True
+            )
 
     # Close browser
     driver.quit()
+
 
 if __name__ == '__main__':
     url = "http://localhost:8000/dz.html"
