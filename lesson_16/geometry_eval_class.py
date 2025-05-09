@@ -15,7 +15,7 @@ class Figure(ABC):
 
     def __setattr__(self, key, value):
         if not isinstance(value, int | float) or value < 0:
-            raise ValueError(f"Enter correct type/value of parameter: {key[key.find('__') + 2:]}={value}")
+            raise ValueError(f"Enter correct type/value of parameter: {key[key.find_element('__') + 2:]}={value}")
         super().__setattr__(key, value)
 
     def __str__(self):

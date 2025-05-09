@@ -1,0 +1,3 @@
+from lesson_28.hw.pages.qauto_base_page import QAutoBasePage
+from lesson_28.hw.pages.qauto_start_page import HillelQAutoStartPage
+from lesson_28.hw.pages.qauto_garage_page import HillelQAutoGaragePage

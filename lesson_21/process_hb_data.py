@@ -31,7 +31,7 @@ def process_heart_beating_file(*, filename, thread_id: str, hb_delta_normal: int
         try:
             if 'Timestamp ' not in record_instance:
                 raise ValueError(f"No 'timestamp' label found in the record")
-            timestamp_start_index = record_instance.find("Timestamp ") + 10
+            timestamp_start_index = record_instance.find_element("Timestamp ") + 10
             prev_time_str = record_instance[timestamp_start_index:timestamp_start_index + 8]
             prev_time_datetime_obj = datetime.strptime(prev_time_str, time_format)
 
