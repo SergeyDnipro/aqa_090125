@@ -1,0 +1,8 @@
+[2025-05-12 13:46:48][INFO]: test_add_function_positive[1-2-3] - PASSED, Function: 'add_x_y', value1=1, value2=2, actual result=3, expected result=3
+[2025-05-12 13:46:48][INFO]: test_add_function_positive[100--100-0] - PASSED, Function: 'add_x_y', value1=100, value2=-100, actual result=0, expected result=0
+[2025-05-12 13:46:48][INFO]: test_pow_function_positive[8-2-64] - PASSED, Function: 'pow_x_y', value1=8, value2=2, actual result=64, expected result=64
+[2025-05-12 13:46:48][INFO]: test_pow_function_positive[100-2-10000] - PASSED, Function: 'pow_x_y', value1=100, value2=2, actual result=10000, expected result=10000
+[2025-05-12 13:46:48][INFO]: test_update_record_description - PASSED, Function: 'update_description', old function description: add_x_y, operation: 1 + 2, new function description: Test updating field value
+[2025-05-12 13:46:48][INFO]: test_delete_record - PASSED, Record with ID: 2 deleted successfully
+[2025-05-12 13:46:48][INFO]: test_retrieve_record - PASSED, Record with ID:1, function_description: Test updating field value, result: 3 successfully loaded from database. 
+[2025-05-12 13:46:48][INFO]: Test table dropped. Database connection closed
