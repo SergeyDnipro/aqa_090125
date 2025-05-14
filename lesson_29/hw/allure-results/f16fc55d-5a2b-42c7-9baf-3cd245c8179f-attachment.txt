@@ -1,0 +1,1 @@
+INFO     test_db_logger:conftest.py:25 test_update_record_description - PASSED, Function: 'update_description', old function description: add_x_y, operation: 1 + 2, new function description: Test updating field value

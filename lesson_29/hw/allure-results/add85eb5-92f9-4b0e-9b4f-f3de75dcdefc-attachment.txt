@@ -1,0 +1,2 @@
+INFO     test_db_logger:conftest.py:25 test_retrieve_record - PASSED, Record with ID:1, function_description: Test updating field value, result: 3 successfully loaded from database.
+INFO     test_db_logger:conftest.py:14 Test table dropped. Database connection closed

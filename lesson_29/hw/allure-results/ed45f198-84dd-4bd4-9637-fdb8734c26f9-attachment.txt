@@ -1,0 +1,1 @@
+INFO     test_db_logger:conftest.py:25 test_add_function_positive[1-2-3] - PASSED, Function: 'add_x_y', value1=1, value2=2, actual result=3, expected result=3

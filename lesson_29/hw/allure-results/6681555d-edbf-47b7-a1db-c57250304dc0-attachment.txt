@@ -1,0 +1,1 @@
+INFO     test_db_logger:conftest.py:25 test_pow_function_positive[8-2-64] - PASSED, Function: 'pow_x_y', value1=8, value2=2, actual result=64, expected result=64

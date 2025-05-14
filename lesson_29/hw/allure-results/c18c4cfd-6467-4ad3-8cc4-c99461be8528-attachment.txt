@@ -1,0 +1,1 @@
+INFO     test_db_logger:conftest.py:25 test_pow_function_positive[100-2-10000] - PASSED, Function: 'pow_x_y', value1=100, value2=2, actual result=10000, expected result=10000
